@@ -191,10 +191,10 @@ if __name__ == '__main__':
 
 	if sys.argv[1] == '--train' or sys.argv[1] == '--t':
 		print("Training the Autoencoder Model...")
-		train(model)
+		train(model, optimizer, criterion)
 	elif sys.argv[1] == '--eval' or sys.argv[1] == '--e':
 		print("Evaluating the Autoenconder Model...")
-		eval(model)
-    else:
-        print("%s --train to train the autoencoder model"%sys.argv[0])
-        print("%s --eval to evaluate the autoencoder model"%sys.argv[0])
+		[sdr_list, isr_list, sir_list, sar_list] = eval(model)
+	else:
+		print("%s --train to train the autoencoder model"%sys.argv[0])
+		print("%s --eval to evaluate the autoencoder model"%sys.argv[0])
