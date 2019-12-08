@@ -29,5 +29,10 @@ pip3 install -r requirements.txt
 
 #### Evaluation
 ```bash
-./__init__.py --eval
+./__init__.py --eval [MODEL_STATE_PT_FILE]
+```
+
+#### Prediction
+```bash
+./__init__.py --predict [MODEL_STATE_PT_FILE] [INPUT_FILE]
 ```
