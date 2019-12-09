@@ -32,7 +32,7 @@ event_list = ["Crying baby", "Dog", "Siren", "Speaker"]
 project_folder = "./dataset/"
 project_dataset_input = project_folder + "input_folder/"
 project_dataset_output = project_folder + "output_folder/"
-utput_csv_with_audio_file_path = project_dataset_output + "labels.csv"
+output_csv_with_audio_file_path = project_dataset_output + "labels.csv"
 
 #set log folder where we store the model
 log_folder = "./log/"

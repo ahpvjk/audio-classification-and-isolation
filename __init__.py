@@ -222,41 +222,38 @@ def compute_loss(data, target, criterion, model_out):
     loss_other_others = 0
 
     criterion_loss_baby_cry = criterion(calc_baby_cry, target[:, :1, :, :])
-    #loss_other_baby_cry += config.alpha_baby_cry * criterion(calc_baby_cry, target[:, 1:2, :, :])
-    #loss_other_baby_cry += config.alpha_baby_cry * criterion(calc_baby_cry, target[:, 2:3, :, :])
-    #loss_other_baby_cry += config.alpha_baby_cry * criterion(calc_baby_cry, target[:, 3:4, :, :])
-    #loss_other_baby_cry += config.alpha_baby_cry * criterion(calc_baby_cry, target[:, 4:5, :, :])
+    loss_other_baby_cry += config.alpha_baby_cry * criterion(calc_baby_cry, target[:, 1:2, :, :])
+    loss_other_baby_cry += config.alpha_baby_cry * criterion(calc_baby_cry, target[:, 2:3, :, :])
+    loss_other_baby_cry += config.alpha_baby_cry * criterion(calc_baby_cry, target[:, 3:4, :, :])
+    loss_other_baby_cry += config.alpha_baby_cry * criterion(calc_baby_cry, target[:, 4:5, :, :])
 
     criterion_loss_dog = criterion(calc_dog, target[:, 1:2, :, :])
-    #loss_other_dog += config.alpha_dog * criterion(calc_dog, target[:, :1, :, :])
-    #loss_other_dog += config.alpha_dog * criterion(calc_dog, target[:, 2:3, :, :])
-    #loss_other_dog += config.alpha_dog * criterion(calc_dog, target[:, 3:4, :, :])
-    #loss_other_dog += config.alpha_dog * criterion(calc_dog, target[:, 4:5, :, :])
+    loss_other_dog += config.alpha_dog * criterion(calc_dog, target[:, :1, :, :])
+    loss_other_dog += config.alpha_dog * criterion(calc_dog, target[:, 2:3, :, :])
+    loss_other_dog += config.alpha_dog * criterion(calc_dog, target[:, 3:4, :, :])
+    loss_other_dog += config.alpha_dog * criterion(calc_dog, target[:, 4:5, :, :])
 
     criterion_loss_siren = criterion(calc_siren, target[:, 2:3, :, :])
-    #loss_other_siren += config.alpha_siren * criterion(calc_siren, target[:, :1, :, :])
-    #loss_other_siren += config.alpha_siren * criterion(calc_siren, target[:, 1:2, :, :])
-    #loss_other_siren += config.alpha_siren * criterion(calc_siren, target[:, 3:4, :, :])
-    #loss_other_siren += config.alpha_siren * criterion(calc_siren, target[:, 4:5, :, :])
+    loss_other_siren += config.alpha_siren * criterion(calc_siren, target[:, :1, :, :])
+    loss_other_siren += config.alpha_siren * criterion(calc_siren, target[:, 1:2, :, :])
+    loss_other_siren += config.alpha_siren * criterion(calc_siren, target[:, 3:4, :, :])
+    loss_other_siren += config.alpha_siren * criterion(calc_siren, target[:, 4:5, :, :])
 
     criterion_loss_speech = criterion(calc_speech, target[:, 3:4, :, :])
-    #loss_other_speech += config.alpha_speech * criterion(calc_speech, target[:, :1, :, :])
-    #loss_other_speech += config.alpha_speech * criterion(calc_speech, target[:, 1:2, :, :])
-    #loss_other_speech += config.alpha_speech * criterion(calc_speech, target[:, 2:3, :, :])
-    #loss_other_speech += config.alpha_speech * criterion(calc_speech, target[:, 4:5, :, :])
+    loss_other_speech += config.alpha_speech * criterion(calc_speech, target[:, :1, :, :])
+    loss_other_speech += config.alpha_speech * criterion(calc_speech, target[:, 1:2, :, :])
+    loss_other_speech += config.alpha_speech * criterion(calc_speech, target[:, 2:3, :, :])
+    loss_other_speech += config.alpha_speech * criterion(calc_speech, target[:, 4:5, :, :])
 
     criterion_loss_others = criterion(calc_others, target[:, 4:5, :, :])
-    #loss_other_others += config.alpha_others * criterion(calc_others, target[:, :1, :, :])
-    #loss_other_others += config.alpha_others * criterion(calc_others, target[:, 1:2, :, :])
-    #loss_other_others += config.alpha_others * criterion(calc_others, target[:, 2:3, :, :])
-    #loss_other_others += config.alpha_others * criterion(calc_others, target[:, 3:4, :, :])
+    loss_other_others += config.alpha_others * criterion(calc_others, target[:, :1, :, :])
+    loss_other_others += config.alpha_others * criterion(calc_others, target[:, 1:2, :, :])
+    loss_other_others += config.alpha_others * criterion(calc_others, target[:, 2:3, :, :])
+    loss_other_others += config.alpha_others * criterion(calc_others, target[:, 3:4, :, :])
 
-    #return (criterion_loss_baby_cry, criterion_loss_dog, criterion_loss_siren, criterion_loss_speech,
-    #        criterion_loss_others, loss_other_baby_cry, loss_other_dog, loss_other_siren, loss_other_speech,
-    #        loss_other_others)
-    
     return (criterion_loss_baby_cry, criterion_loss_dog, criterion_loss_siren, criterion_loss_speech,
-            criterion_loss_others)
+           criterion_loss_others, loss_other_baby_cry, loss_other_dog, loss_other_siren, loss_other_speech,
+           loss_other_others)
 
 def train(model, criterion, optimizer, train_set):
     model.train()
@@ -310,11 +307,8 @@ def train(model, criterion, optimizer, train_set):
                 concat_target = torch.cat((train_target[0], train_target[1], train_target[2], train_target[3], train_target[4]), 1)
                 concat_target = concat_target.to(DEVICE)
 
-                #(loss_baby_cry, loss_dog, loss_siren, loss_speech, loss_others, loss_other_baby_cry, loss_other_dog, loss_other_siren, loss_other_speech, loss_other_others) = compute_loss(train_data, concat_target, criterion, model_out)
-                #loss = abs(loss_baby_cry + loss_dog + loss_siren + loss_speech + loss_others - loss_other_baby_cry - loss_other_dog - loss_other_siren - loss_other_speech - loss_other_others)
-
-                (loss_baby_cry, loss_dog, loss_siren, loss_speech, loss_others) = compute_loss(train_data, concat_target, criterion, model_out)
-                loss = abs(loss_baby_cry + loss_dog + loss_siren + loss_speech + loss_others)
+                (loss_baby_cry, loss_dog, loss_siren, loss_speech, loss_others, loss_other_baby_cry, loss_other_dog, loss_other_siren, loss_other_speech, loss_other_others) = compute_loss(train_data, concat_target, criterion, model_out)
+                loss = abs(loss_baby_cry + loss_dog + loss_siren + loss_speech + loss_others - loss_other_baby_cry - loss_other_dog - loss_other_siren - loss_other_speech - loss_other_others)
 
                 avg_loss += loss
                 avg_loss_baby_cry += loss_baby_cry
